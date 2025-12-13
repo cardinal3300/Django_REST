@@ -14,3 +14,7 @@ class Lesson(models.Model):
 
     def __str__(self):
         return f"{self.title} ({self.course.title})"
+
+    class Meta:
+        verbose_name = "урок"
+        verbose_name_plural = "уроки"
