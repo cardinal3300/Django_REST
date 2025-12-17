@@ -1,17 +1,18 @@
-from django.core.management.base import BaseCommand
-from django.contrib.auth import get_user_model
-from django.utils import timezone
 import random
 
-from users.models import Payment
+from django.contrib.auth import get_user_model
+from django.core.management.base import BaseCommand
+from django.utils import timezone
+
 from courses.models import Course
 from lessons.models import Lesson
+from users.models import Payment
 
 User = get_user_model()
 
 
 class Command(BaseCommand):
-    help = 'Заполняет таблицу Payment тестовыми данными'
+    help = "Заполняет таблицу Payment тестовыми данными"
 
     def handle(self, *args, **options):
         users = User.objects.all()
@@ -19,11 +20,13 @@ class Command(BaseCommand):
         lessons = Lesson.objects.all()
 
         if not users.exists():
-            self.stdout.write(self.style.ERROR('Нет пользователей для создания платежей'))
+            self.stdout.write(
+                self.style.ERROR("Нет пользователей для создания платежей")
+            )
             return
 
         if not courses.exists() and not lessons.exists():
-            self.stdout.write(self.style.ERROR('Нет курсов или уроков для оплаты'))
+            self.stdout.write(self.style.ERROR("Нет курсов или уроков для оплаты"))
             return
 
         payment_methods = [Payment.CASH, Payment.TRANSFER]
@@ -49,13 +52,13 @@ class Command(BaseCommand):
                 course=course,
                 lesson=lesson,
                 amount=amount,
-                payment_method=random.choice(payment_methods)
+                payment_method=random.choice(payment_methods),
             )
 
             self.stdout.write(
                 self.style.SUCCESS(
-                    f'Создан платеж: {payment.user} — {payment.amount} ({payment.payment_method})'
+                    f"Создан платеж: {payment.user} — {payment.amount} ({payment.payment_method})"
                 )
             )
 
-        self.stdout.write(self.style.SUCCESS('Все платежи успешно созданы!'))
+        self.stdout.write(self.style.SUCCESS("Все платежи успешно созданы!"))

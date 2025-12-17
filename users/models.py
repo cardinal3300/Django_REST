@@ -85,6 +85,9 @@ class Payment(models.Model):
     payment_method = models.CharField(
         max_length=10, choices=PAYMENT_METHOD_CHOICES, verbose_name="Способ оплаты"
     )
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True
+    )
 
     def __str__(self):
         return (

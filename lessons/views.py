@@ -3,29 +3,47 @@ from rest_framework.permissions import IsAuthenticated
 
 from lessons.models import Lesson
 from lessons.serializers import LessonSerializer
+from users.permissions import IsModerator, IsOwner
 
 
-class LessonListCreateAPIView(generics.ListCreateAPIView):
-    """Получение списка и создание урока"""
-
-    queryset = Lesson.objects.all()
-    serializer_class = LessonSerializer
-    permission_classes = [IsAuthenticated]
-
-    def perform_create(self, serializer):
-        new_lessons = serializer.save()
-        new_lessons.owner = self.request.user
-        new_lessons.save()
-
-
-class LessonRetrieveUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
-    """Получение, изменение, удаление одного урока"""
+class LessonCreateAPIView(generics.CreateAPIView):
+    """Создание урока"""
 
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, ~IsModerator]
 
     def perform_create(self, serializer):
-        new_lessons = serializer.save()
-        new_lessons.owner = self.request.user
-        new_lessons.save()
+        serializer.save(owner=self.request.user)
+
+
+class LessonListAPIView(generics.ListAPIView):
+    """Получение списка уроков"""
+
+    queryset = Lesson.objects.all()
+    serializer_class = LessonSerializer
+    permission_classes = [IsAuthenticated, IsModerator | IsOwner]
+
+
+class LessonRetrieveAPIView(generics.RetrieveAPIView):
+    """Получение одного урока"""
+
+    queryset = Lesson.objects.all()
+    serializer_class = LessonSerializer
+    permission_classes = [IsAuthenticated, IsModerator | IsOwner]
+
+
+class LessonUpdateAPIView(generics.UpdateAPIView):
+    """Редактирование уроков"""
+
+    queryset = Lesson.objects.all()
+    serializer_class = LessonSerializer
+    permission_classes = [IsAuthenticated, IsModerator | IsOwner]
+
+
+class LessonDestroyAPIView(generics.DestroyAPIView):
+    """Удаление уроков"""
+
+    queryset = Lesson.objects.all()
+    serializer_class = LessonSerializer
+    permission_classes = [IsAuthenticated, IsOwner]
