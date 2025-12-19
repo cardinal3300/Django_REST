@@ -13,7 +13,7 @@ User = get_user_model()
 
 
 class UserRegisterAPIView(generics.CreateAPIView):
-    """Регистрация(доступна без авторизации)"""
+    """Регистрация(доступна без авторизации)."""
 
     queryset = User.objects.all()
     serializer_class = UserRegisterSerializer
@@ -21,7 +21,7 @@ class UserRegisterAPIView(generics.CreateAPIView):
 
 
 class UserViewSet(ModelViewSet):
-    """CRUD пользователей (только авторизованные)"""
+    """CRUD пользователей (только авторизованные)."""
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -29,7 +29,7 @@ class UserViewSet(ModelViewSet):
 
 
 class PaymentListApiView(generics.ListAPIView):
-    """Получение платежей с сортировкой и фильтрациями"""
+    """Получение платежей с сортировкой и фильтрациями."""
 
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer

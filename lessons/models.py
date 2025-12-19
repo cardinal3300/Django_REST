@@ -5,7 +5,7 @@ from courses.models import Course
 
 
 class Lesson(models.Model):
-    """Модель Урок"""
+    """Модель Урок."""
 
     course = models.ForeignKey(
         Course, on_delete=models.CASCADE, related_name="lessons", verbose_name="Курс"

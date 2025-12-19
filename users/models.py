@@ -8,7 +8,7 @@ from lessons.models import Lesson
 
 
 class UserManager(BaseUserManager):
-    """Кастомный менеджер пользователей"""
+    """Кастомный менеджер пользователей."""
 
     use_in_migrations = True
 
@@ -27,7 +27,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
-    """Кастомная модель пользователя"""
+    """Кастомная модель пользователя."""
 
     username = None
     email = models.EmailField(unique=True, verbose_name="Email")
@@ -51,7 +51,7 @@ class User(AbstractUser):
 
 
 class Payment(models.Model):
-    """Модель Платежи"""
+    """Модель Платежи."""
 
     CASH = "cash"
     TRANSFER = "transfer"

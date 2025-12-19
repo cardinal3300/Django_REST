@@ -7,7 +7,7 @@ from users.permissions import IsModerator, IsOwner
 
 
 class CourseViewSet(ModelViewSet):
-    """CRUD для курса"""
+    """CRUD для курса."""
 
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
