@@ -18,7 +18,7 @@ class TitleValidator:
 
 
 class VideoLinkValidator:
-    """Разрешает ссылки только на YouTube."""
+    """Разрешает ссылки только на youtube.com и на youtu.be."""
 
     YOUTUBE_REGEX = re.compile(
         r'^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)[\w\-]+'
