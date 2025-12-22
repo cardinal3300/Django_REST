@@ -8,7 +8,7 @@ from lessons.models import Lesson
 
 
 class UserManager(BaseUserManager):
-    """Кастомный менеджер пользователей"""
+    """Кастомный менеджер пользователей."""
 
     use_in_migrations = True
 
@@ -27,7 +27,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
-    """Кастомная модель пользователя"""
+    """Кастомная модель пользователя."""
 
     username = None
     email = models.EmailField(unique=True, verbose_name="Email")
@@ -51,7 +51,7 @@ class User(AbstractUser):
 
 
 class Payment(models.Model):
-    """Модель Платежи"""
+    """Модель Платежи."""
 
     CASH = "cash"
     TRANSFER = "transfer"
@@ -97,3 +97,27 @@ class Payment(models.Model):
     class Meta:
         verbose_name = "Платеж"
         verbose_name_plural = "Платежи"
+
+
+class Subscription(models.Model):
+    """Модель Подписки."""
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='subscriptions'
+    )
+    course = models.ForeignKey(
+        Course,
+        on_delete=models.CASCADE,
+        related_name='subscriptions'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'course')
+        verbose_name = 'Подписка'
+        verbose_name_plural = 'Подписки'
+
+    def __str__(self):
+        return f'{self.user} → {self.course}'

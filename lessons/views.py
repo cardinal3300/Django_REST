@@ -2,31 +2,33 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
 from lessons.models import Lesson
+from paginators import MyPaginator
 from lessons.serializers import LessonSerializer
-from users.permissions import IsModerator, IsOwner
+from users.permissions import IsModerator, IsOwner, IsNotModerator
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
-    """Создание урока"""
+    """Создание урока."""
 
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
-    permission_classes = [IsAuthenticated, ~IsModerator]
+    permission_classes = [IsAuthenticated, IsNotModerator, ~IsModerator]
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
 
 class LessonListAPIView(generics.ListAPIView):
-    """Получение списка уроков"""
+    """Получение списка уроков."""
 
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     permission_classes = [IsAuthenticated, IsModerator | IsOwner]
+    pagination_class = MyPaginator
 
 
 class LessonRetrieveAPIView(generics.RetrieveAPIView):
-    """Получение одного урока"""
+    """Получение одного урока."""
 
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
@@ -34,7 +36,7 @@ class LessonRetrieveAPIView(generics.RetrieveAPIView):
 
 
 class LessonUpdateAPIView(generics.UpdateAPIView):
-    """Редактирование уроков"""
+    """Редактирование уроков."""
 
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
@@ -42,7 +44,7 @@ class LessonUpdateAPIView(generics.UpdateAPIView):
 
 
 class LessonDestroyAPIView(generics.DestroyAPIView):
-    """Удаление уроков"""
+    """Удаление уроков."""
 
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer

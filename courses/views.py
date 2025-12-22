@@ -1,16 +1,18 @@
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
 from courses.models import Course
 from courses.serializers import CourseSerializer
+from paginators import MyPaginator
 from users.permissions import IsModerator, IsOwner
 
 
 class CourseViewSet(ModelViewSet):
-    """CRUD для курса"""
+    """CRUD для курса."""
 
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+    pagination_class = MyPaginator
 
     def get_permissions(self):
         if self.action == "create":

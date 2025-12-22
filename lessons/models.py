@@ -5,7 +5,7 @@ from courses.models import Course
 
 
 class Lesson(models.Model):
-    """Модель Урок"""
+    """Модель Урок."""
 
     course = models.ForeignKey(
         Course, on_delete=models.CASCADE, related_name="lessons", verbose_name="Курс"
@@ -15,7 +15,7 @@ class Lesson(models.Model):
     preview = models.ImageField(upload_to="lesson_previews/", blank=True, null=True)
     video_url = models.URLField(verbose_name="Ссылка на видео")
     owner = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True,
     )
 
     def __str__(self):
