@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import filters, generics, permissions, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -57,6 +59,25 @@ class SubscriptionAPIView(APIView):
     """Управление подпиской (добавить / удалить)."""
 
     permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        operation_summary="Подписка / отписка от курса",
+        operation_description="Создает или удаляет подписку пользователя на курс",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            required=["course_id"],
+            properties={
+                "course_id": openapi.Schema(
+                    type=openapi.TYPE_INTEGER,
+                    description="ID курса"
+                )
+            }
+        ),
+        responses={
+            200: openapi.Response("Успешно"),
+            401: openapi.Response("Не авторизован"),
+        }
+    )
 
     def post(self, request):
         user = request.user
