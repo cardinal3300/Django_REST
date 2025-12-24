@@ -6,8 +6,8 @@ class IsModerator(BasePermission):
 
     def has_permission(self, request, view):
         return (
-                request.user.is_authenticated
-                and request.user.groups.filter(name='moderators').exists()
+            request.user.is_authenticated
+            and request.user.groups.filter(name="moderators").exists()
         )
 
     def has_object_permission(self, request, view, obj):
@@ -18,8 +18,8 @@ class IsNotModerator(BasePermission):
     """Запрещает модераторам создавать объекты."""
 
     def has_permission(self, request, view):
-        if request.method == 'POST':
-            return not request.user.groups.filter(name='moderators').exists()
+        if request.method == "POST":
+            return not request.user.groups.filter(name="moderators").exists()
         return True
 
 

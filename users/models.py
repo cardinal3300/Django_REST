@@ -81,9 +81,15 @@ class Payment(models.Model):
         related_name="payments",
         verbose_name="Оплаченный урок",
     )
-    amount = models.PositiveIntegerField(verbose_name="Сумма оплаты")
+    unit_amount = models.PositiveIntegerField(verbose_name="Сумма оплаты")
     payment_method = models.CharField(
         max_length=10, choices=PAYMENT_METHOD_CHOICES, verbose_name="Способ оплаты"
+    )
+    payment_link = models.URLField(
+        max_length=500,
+        null=True,
+        blank=True,
+        verbose_name="Ссылка на оплату",
     )
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True
@@ -103,21 +109,17 @@ class Subscription(models.Model):
     """Модель Подписки."""
 
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name='subscriptions'
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="subscriptions"
     )
     course = models.ForeignKey(
-        Course,
-        on_delete=models.CASCADE,
-        related_name='subscriptions'
+        Course, on_delete=models.CASCADE, related_name="subscriptions"
     )
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('user', 'course')
-        verbose_name = 'Подписка'
-        verbose_name_plural = 'Подписки'
+        unique_together = ("user", "course")
+        verbose_name = "Подписка"
+        verbose_name_plural = "Подписки"
 
     def __str__(self):
-        return f'{self.user} → {self.course}'
+        return f"{self.user} → {self.course}"

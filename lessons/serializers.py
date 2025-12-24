@@ -10,7 +10,9 @@ class LessonSerializer(serializers.ModelSerializer):
         model = Lesson
         fields = "__all__"
         validators = [
-            TitleValidator(field='title'),
-            VideoLinkValidator(field='video_url'),
-            serializers.UniqueTogetherValidator(fields=['title'], queryset=Lesson.objects.all())
+            TitleValidator(field="title"),
+            VideoLinkValidator(field="video_url"),
+            serializers.UniqueTogetherValidator(
+                fields=["title"], queryset=Lesson.objects.all()
+            ),
         ]
