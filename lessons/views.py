@@ -2,9 +2,9 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
 from lessons.models import Lesson
-from paginators import MyPaginator
 from lessons.serializers import LessonSerializer
-from users.permissions import IsModerator, IsOwner, IsNotModerator
+from paginators import MyPaginator
+from users.permissions import IsModerator, IsNotModerator, IsOwner
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
