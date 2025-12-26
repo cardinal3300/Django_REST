@@ -18,6 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 
 SECRET_KEY = os.getenv('SECRET_KEY')
+STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -48,6 +49,8 @@ INSTALLED_APPS = (
     'rest_framework_simplejwt',
     'drf_yasg',
     'corsheaders',
+
+    'django_celery_beat',
 
     'courses',
     'lessons',
@@ -157,4 +160,13 @@ CSRF_TRUSTED_ORIGINS = (
     "https://read-and-write.example.com",
 )
 
-STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": os.getenv('REDIS_HOST'),
+        "IGNORE_EXCEPTIONS": True,
+        }
+}
+
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
+CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
