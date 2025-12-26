@@ -27,6 +27,8 @@ ALLOWED_HOSTS = ()
 
 AUTH_USER_MODEL = 'users.User'
 
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
+
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 EMAIL_HOST = "smtp.gmail.com"
@@ -160,13 +162,10 @@ CSRF_TRUSTED_ORIGINS = (
     "https://read-and-write.example.com",
 )
 
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": os.getenv('REDIS_HOST'),
-        "IGNORE_EXCEPTIONS": True,
-        }
-}
+REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
 
-CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
-CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
+CELERY_BROKER_URL = REDIS_URL
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = REDIS_URL
+CELERY_TIMEZONE = TIME_ZONE
