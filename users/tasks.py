@@ -41,7 +41,7 @@ def send_course_update_mail(course_id):
 
 @shared_task
 def deactivate_inactive_users():
-    """ Задача блокировки пользователей, которые не заходили более 30 дней."""
+    """Задача блокировки пользователей, которые не заходили более 30 дней."""
     print("RUN deactivate_inactive_users")
 
     threshold_date = timezone.now() - timedelta(days=30)
