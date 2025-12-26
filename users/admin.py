@@ -21,9 +21,17 @@ class UserAdmin(BaseUserAdmin):
                 )
             },
         ),
+        (
+            "Системные поля",
+            {
+                "fields": (
+                    "last_login",
+                )
+        }
+        )
     )
     add_fieldsets = ((None, {"fields": ("email", "password1", "password2")}),)
-    list_display = ("email", "phone", "city", "is_staff")
+    list_display = ("email", "phone", "city", "is_staff", "last_login")
     search_fields = ("email", "phone", "city")
     ordering = ("email",)
     filter_horizontal = (

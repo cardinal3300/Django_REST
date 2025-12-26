@@ -164,6 +164,8 @@ CSRF_TRUSTED_ORIGINS = (
 
 REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
 
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+
 CELERY_BROKER_URL = REDIS_URL
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
