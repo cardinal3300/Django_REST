@@ -60,11 +60,13 @@ Online_Learning_Platform_API — это бэкенд-часть веб-прил�
 - **APITestCase**
 - **CORS**
 - **Docker**
+- **Docker Compose**
 
 ---
 
-## ⚙️ Установка и запуск
+## ⚙️ Установка и запуск (требования Docker и Docker Compose)
 
+- **Локально**
 ```bash
     git clone git@github.com:cardinal3300/Django_REST.git   # Клонирование репозитория
     cd online_learning_platform_api
@@ -75,7 +77,32 @@ Online_Learning_Platform_API — это бэкенд-часть веб-прил�
     python manage.py migrate                                # Применение миграций
     python manage.py createsuperuser                        # Создание суперпользователя
     python manage.py runserver                              # Запуск сервера разработки    
+    docker compose up --build
 ```
+ ---
+
+## ⚙️ Проверка сервисов
+
+Сервис - Как проверить
+
+Django - http://localhost:8000
+
+Admin - http://localhost:8000/admin/
+
+Swagger	- http://localhost:8000/swagger/
+
+PostgreSQL - docker compose exec db psql -U postgres
+
+Redis - docker compose exec redis redis-cli ping
+
+Celery - docker compose logs celery
+
+Celery - Beat	docker compose logs celery-beat
+
+---
+
+## Остановка проекта
+```docker compose down```
 
 ---
 
