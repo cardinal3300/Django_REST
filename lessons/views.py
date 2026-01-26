@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from django.utils import timezone
-from rest_framework import generics
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from lessons.models import Lesson
@@ -11,7 +11,7 @@ from users.permissions import IsModerator, IsNotModerator, IsOwner
 from users.tasks import send_course_update_mail
 
 
-class LessonCreateAPIView(generics.CreateAPIView):
+class LessonCreateAPIView(CreateAPIView):
     """Создание урока."""
 
     queryset = Lesson.objects.all()
@@ -22,7 +22,7 @@ class LessonCreateAPIView(generics.CreateAPIView):
         serializer.save(owner=self.request.user)
 
 
-class LessonListAPIView(generics.ListAPIView):
+class LessonListAPIView(ListAPIView):
     """Получение списка уроков."""
 
     queryset = Lesson.objects.all()
@@ -31,7 +31,7 @@ class LessonListAPIView(generics.ListAPIView):
     pagination_class = MyPaginator
 
 
-class LessonRetrieveAPIView(generics.RetrieveAPIView):
+class LessonRetrieveAPIView(RetrieveAPIView):
     """Получение одного урока."""
 
     queryset = Lesson.objects.all()
@@ -39,7 +39,7 @@ class LessonRetrieveAPIView(generics.RetrieveAPIView):
     permission_classes = [IsAuthenticated, IsModerator | IsOwner]
 
 
-class LessonUpdateAPIView(generics.UpdateAPIView):
+class LessonUpdateAPIView(UpdateAPIView):
     """Редактирование уроков."""
 
     queryset = Lesson.objects.all()
@@ -59,7 +59,7 @@ class LessonUpdateAPIView(generics.UpdateAPIView):
             course.save(update_fields=["updated_at"])
 
 
-class LessonDestroyAPIView(generics.DestroyAPIView):
+class LessonDestroyAPIView(DestroyAPIView):
     """Удаление уроков."""
 
     queryset = Lesson.objects.all()
