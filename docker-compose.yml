@@ -1,68 +1,97 @@
-version: "3.9"
-
 services:
-  web:
-    build: .
-    container_name: django_web
-    command: python manage.py runserver 0.0.0.0:8000
-    ports:
-      - "8000:8000"
-    volumes:
-      - .:/app
-      - static_volume:/code/static
-    env_file:
-      - .env
-    depends_on:
-      db:
-        condition: service_healthy
-      redis:
-        condition: service_started
-
   db:
     image: postgres:16
-    container_name: django_postgres
     restart: always
-    env_file:
-      - .env
+    env_file: .env
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    expose:
-      - "5432"
+    ports:
+      - "${POSTGRES_PORT}:5432"
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U $POSTGRES_USER" ]
-      interval: 10s
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
       timeout: 5s
       retries: 3
 
   redis:
     image: redis:7
-    container_name: django_redis
+    volumes:
+      - redis_data:/data
     ports:
       - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 3
+
+  backend:
+    build: .
+    command: >
+      sh -c "python manage.py migrate --noinput &&
+             python manage.py collectstatic --noinput &&
+             python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    env_file: .env
+    environment:
+      POSTGRES_HOST: db
+      REDIS_URL: redis://redis:6379/0
+    volumes:
+      - .:/app
+      - static_volume:/app/static
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      celery:
+        condition: service_started
+      celery-beat:
+        condition: service_started
 
   celery:
     build: .
-    container_name: django_celery
     command: celery -A config worker -l info -P solo
-    env_file:
-      - .env
+    env_file: .env
+    environment:
+      POSTGRES_HOST: db
+      REDIS_URL: redis://redis:6379/0
+    volumes:
+      - .:/app
     depends_on:
-      - redis
-      - db
+      redis:
+        condition: service_healthy
 
   celery-beat:
     build: .
-    container_name: django_celery_beat
     command: celery -A config beat -l info
-    env_file:
-      - .env
+    env_file: .env
+    environment:
+      POSTGRES_HOST: db
+      REDIS_URL: redis://redis:6379/0
     depends_on:
-      - redis
-      - db
+      redis:
+        condition: service_healthy
+      celery:
+        condition: service_started
 
-networks:
-  default:
+  nginx:
+    build: ./nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./media:/app/media
+      - static_volume:/app/static
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/ || exit 1"]
+      interval: 10s
+      retries: 3
+    depends_on:
+      - backend
 
 volumes:
-  static_volume:
   postgres_data:
+  redis_data:
+  static_volume:
