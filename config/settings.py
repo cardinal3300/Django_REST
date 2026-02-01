@@ -17,7 +17,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG =  os.getenv("DEBUG") == "True"
+DEBUG = os.getenv("DEBUG") == "True"
 
 AUTH_USER_MODEL = "users.User"
 
