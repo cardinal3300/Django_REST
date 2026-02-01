@@ -152,7 +152,7 @@ CORS_ALLOWED_ORIGINS = (
     "https://read-and-write.example.com",
 )
 
-CSRF_TRUSTED_ORIGINS = ["https://read-and-write.example.com"]
+CSRF_TRUSTED_ORIGINS = ["https://read-and-write.example.com", "http://158.160.93.205"]
 
 REDIS_URL = os.getenv("REDIS_URL")
 
