@@ -49,6 +49,11 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run migrate
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         run: python manage.py migrate
 
       - name: Run tests
