@@ -1,3 +1,5 @@
+name: Django_REST
+
 services:
   db:
     image: postgres:16
@@ -25,18 +27,18 @@ services:
 
   backend:
     build: .
-    command: sh -c "python manage.py collectstatic --no-input && gunicorn config.wsgi:application --bind 0.0.0.0:8001"
+    command: sh -c "python manage.py collectstatic --no-input && gunicorn config.wsgi:application --bind 0.0.0.0:8000"
     expose:
-      - "8001"
+      - "8000"
     env_file: .env
     environment:
       POSTGRES_HOST: db
-      REDIS_URL: redis://redis:6379/0
+      REDIS_URL: redis://redis:6379
     volumes:
       - .:/app
       - static_volume:/app/static
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8001/admin/login/ || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/admin/login/ || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 3
@@ -52,8 +54,8 @@ services:
     image: redis:7
     volumes:
       - redis_data:/data
-    ports:
-      - "6379:6379"
+    expose:
+      - "6379"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 3s

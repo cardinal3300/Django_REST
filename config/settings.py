@@ -1,7 +1,8 @@
 import os
 from datetime import timedelta
-from dotenv import load_dotenv
 from pathlib import Path
+
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -16,11 +17,11 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True if os.getenv("DEBUG") == "True" else False
+DEBUG =  os.getenv("DEBUG") == "True"
 
 AUTH_USER_MODEL = "users.User"
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['158.160.93.205', 'localhost', '127.0.0.1']
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -39,13 +40,11 @@ INSTALLED_APPS = (
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     "rest_framework",
     "rest_framework_simplejwt",
     "corsheaders",
     "django_celery_beat",
     "drf_yasg",
-
     "courses",
     "lessons",
     "users",
@@ -153,7 +152,7 @@ CORS_ALLOWED_ORIGINS = (
     "https://read-and-write.example.com",
 )
 
-CSRF_TRUSTED_ORIGINS = ("https://read-and-write.example.com",)
+CSRF_TRUSTED_ORIGINS = ("https://read-and-write.example.com", os.getenv("CSRF_TRUSTED"))
 
 REDIS_URL = os.getenv("REDIS_URL")
 
@@ -168,7 +167,7 @@ CELERY_TIMEZONE = TIME_ZONE
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": os.getenv('REDIS_URL'),
-        "IGNORE_EXCEPTIONS": True, # чтобы сайт не падал, если Redis отключён
-        }
+        "LOCATION": os.getenv("REDIS_URL"),
+        "IGNORE_EXCEPTIONS": True,  # чтобы сайт не падал, если Redis отключён
+    }
 }
