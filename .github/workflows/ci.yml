@@ -79,12 +79,19 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_KEY }}
 
       - name: Deploy to server
-        env:
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
             docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/Django_REST:${{ github.sha }}
+          
             docker stop Django_REST || true
             docker rm Django_REST || true
-            docker run -d --name Django_REST -p 80:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/Django_REST:${{ github.sha }}
-            EOF
+          
+            docker run -d \
+              --name Django_REST \
+              --env-file /path/to/.env \
+              -p 80:8000 \
+              ${{ secrets.DOCKER_HUB_USERNAME }}/Django_REST:${{ github.sha }}
+          
+            docker exec Django_REST python manage.py migrate --noinput
+            docker exec Django_REST python manage.py collectstatic --noinput
+          EOF
