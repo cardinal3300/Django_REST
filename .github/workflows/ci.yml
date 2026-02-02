@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Check out code
@@ -24,7 +24,7 @@ jobs:
         run: flake8 .
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: lint
 
     steps:
@@ -48,21 +48,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run migrate
-        env:
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          POSTGRES_DB: Django_REST
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_HOST: 127.0.0.1
-          POSTGRES_PORT: 5432
-        run: python manage.py migrate
-
       - name: Run tests
         run: python manage.py test
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: test
 
     steps:
@@ -79,7 +69,7 @@ jobs:
         run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/Django_REST:${{ github.sha }}
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     if: github.ref == 'refs/heads/homework_35_2'
 
     steps:
