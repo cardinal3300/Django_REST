@@ -88,7 +88,7 @@ jobs:
           
             docker run -d \
               --name Django_REST \
-              --env-file /path/to/.env \
+              --env-file ${{ secrets.DEPLOY_DIR }}.env \
               -p 80:8000 \
               ${{ secrets.DOCKER_HUB_USERNAME }}/Django_REST:${{ github.sha }}
           
