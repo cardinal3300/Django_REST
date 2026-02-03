@@ -39,7 +39,6 @@ services:
       POSTGRES_HOST: db
       REDIS_URL: redis://redis:6379
     volumes:
-      - .:/app
       - static_volume:/app/static
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8000/admin/login/ || exit 1"]
@@ -73,8 +72,6 @@ services:
     environment:
       POSTGRES_HOST: db
       REDIS_URL: redis://redis:6379/0
-    volumes:
-      - .:/app
     depends_on:
       redis:
         condition: service_healthy
@@ -86,8 +83,6 @@ services:
     environment:
       POSTGRES_HOST: db
       REDIS_URL: redis://redis:6379/0
-    volumes:
-      - .:/app
     depends_on:
       migrate:
         condition: service_completed_successfully

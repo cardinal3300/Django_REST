@@ -120,7 +120,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY_REST }}
           # Копируем файлы из корня репозитория в папку на сервере
-          source: "docker-compose.yml,nginx/nginx.conf"
+          source: "."
           target: "/opt/django_rest/"
 
       - name: Deploy to server
@@ -133,7 +133,7 @@ jobs:
             IMAGE_TAG=${GITHUB_SHA}
           
             # 3. Строим образ на сервере
-            docker compose build
+            docker compose --build
           
             # 4. Перезапускаем контейнеры
             docker compose up -d
