@@ -27,7 +27,7 @@ services:
 
   backend:
     build:
-      image: ${{ secrets.DOCKER_HUB_USERNAME }}/django_rest:${IMAGE_TAG:-latest}
+      image: cardinal3300/django_rest:latest
     command: >
       sh -c "python manage.py collectstatic --no-input &&
              gunicorn config.wsgi:application --bind 0.0.0.0:8000"

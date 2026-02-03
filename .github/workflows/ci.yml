@@ -130,7 +130,7 @@ jobs:
             cd /opt/django_rest
           
             # 2. Обновляем переменные окружения в .env
-            export IMAGE_TAG=${{ github.sha }}
+            export cardinal3300/django_rest=${{ github.sha }}
           
             # 3. Скачиваем новые образы
             docker compose pull
