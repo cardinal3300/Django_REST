@@ -129,11 +129,11 @@ jobs:
             # 1. Переходим в папку проекта
             cd /opt/django_rest
           
-            # 2. Обновляем переменные окружения в .env
-            export cardinal3300/django_rest=${{ github.sha }}
+            # 2. Используем SHA коммита как тег образа           
+            IMAGE_TAG=${GITHUB_SHA}
           
-            # 3. Скачиваем новые образы
-            docker compose pull
+            # 3. Строим образ на сервере
+            docker compose build
           
             # 4. Перезапускаем контейнеры
             docker compose up -d
