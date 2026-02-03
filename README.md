@@ -233,8 +233,8 @@ Workflow автоматически запускается при `push`.
 2. docker stop старого контейнера
 3. docker rm старого контейнера
 4. docker run нового контейнера
-5. python manage.py collectstatic
-6. python manage.py migrate
+5. python manage.py migrate
+6. python manage.py collectstatic
 ```
 Команды выполняются на сервере.
 
