@@ -26,7 +26,8 @@ services:
         condition: service_healthy
 
   backend:
-    build: .
+    build:
+      image: ${{ secrets.DOCKER_HUB_USERNAME }}/django_rest:${IMAGE_TAG:-latest}
     command: >
       sh -c "python manage.py collectstatic --no-input &&
              gunicorn config.wsgi:application --bind 0.0.0.0:8000"
