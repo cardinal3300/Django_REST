@@ -120,7 +120,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY_REST }}
           # Копируем файлы из корня репозитория в папку на сервере
-          source: "."
+          source: "docker-compose.yml,nginx"
           target: "/opt/django_rest/"
 
       - name: Deploy to server
