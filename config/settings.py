@@ -144,6 +144,8 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
     ),
 }
 
@@ -162,6 +164,7 @@ CELERY_RESULT_BACKEND = os.getenv("REDIS_URL")
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
+
 CELERY_TIMEZONE = TIME_ZONE
 
 CACHES = {

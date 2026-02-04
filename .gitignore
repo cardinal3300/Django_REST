@@ -1,5 +1,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+*.pyc
 *.py[cod]
 *$py.class
 
@@ -37,7 +38,7 @@ pip-log.txt
 pip-delete-this-directory.txt
 
 # Unit test / coverage reports
-#htmlcov/
+htmlcov/
 .tox/
 .nox/
 .coverage
@@ -62,6 +63,7 @@ db.sqlite3
 db.sqlite3-journal
 media/
 staticfiles/
+static/
 
 # Flask stuff:
 instance/
