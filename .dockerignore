@@ -1,1 +1,10 @@
-.pytest_cache
+**
+!config
+!courses
+!lessons
+!nginx
+!users
+!manage.py
+!paginators.py
+!Dockerfile
+!docker-compose.yml

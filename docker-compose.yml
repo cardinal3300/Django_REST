@@ -26,9 +26,7 @@ services:
         condition: service_healthy
 
   backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     command: >
       sh -c "python manage.py collectstatic --no-input &&
              gunicorn config.wsgi:application --bind 0.0.0.0:8000"
@@ -39,7 +37,7 @@ services:
       POSTGRES_HOST: db
       REDIS_URL: redis://redis:6379
     volumes:
-      - static_volume:/app/static
+      - static_volume:/app/static/
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8000/admin/login/ || exit 1"]
       interval: 10s
@@ -95,8 +93,8 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./media:/app/media
-      - static_volume:/app/static
+      - ./media:/app/media/
+      - static_volume:/app/static/
     depends_on:
       backend:
         condition: service_healthy
