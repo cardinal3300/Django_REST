@@ -9,6 +9,46 @@ Online_Learning_Platform_API — это бэкенд-часть веб-прил�
 
 ---
 
+## 🔧 Структура проекта
+
+```
+Django_REST/
+├── .github/
+│   └── workflows/
+│       └── ci.yml              # CI/CD workflow (lint + tests + build + deploy)
+├── config/                     # Django settings 
+├── courses/                    # Приложение courses
+├── lessons/                    # Приложение lessons
+├── users/                      # Приложение users
+│   ├── fixtures/
+│   ├── management/
+│   ├── migrations/
+│   ├── services/
+│   ├── admin.py
+│   ├── apps.py
+│   ├── models.py
+│   ├── permissions.py
+│   ├── serializers.py
+│   ├── tasks.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── media/                      # Загружаемые файлы
+├── static/                     # Статика Django
+├── nginx/                      # Конфигурация nginx
+├── celerybeat-schedule         # Планировщик Celery
+├── .env                        # Переменные окружения (НЕ коммитится)
+├── .env.sample                 # Пример env-файла
+├── .gitignore
+├── docker-compose.yml          # Docker Compose (web + db + nginx)
+├── Dockerfile                  # Dockerfile Django-приложения
+├── manage.py
+├── requirements.txt
+└── README.md
+```
+
+---
+
 ## 🎯 Функциональные возможности
 
 ### Пользователи
