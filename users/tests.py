@@ -70,7 +70,7 @@ class UserApiTest(APITestCase):
 
         self.client.force_authenticate(user=self.owner)
 
-        response = self.client.post(
+        self.client.post(
             "/api/subscribe/", data={"course_id": self.course.id}
         )
 
