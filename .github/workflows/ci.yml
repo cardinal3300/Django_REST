@@ -119,7 +119,6 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY_REST }}
-          # Копируем файлы из корня репозитория в папку на сервере
 
       - name: Deploy to server
         run: |
